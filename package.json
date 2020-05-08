@@ -1,0 +1,36 @@
+{
+  "name": "p-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start:all": "yarn db:init && yarn migration:run && yarn start:dev",
+    "start:dev": "ts-node-dev --inspect --transpileOnly --ignore-watch node_modules src/server.ts",
+    "db:init": "docker-compose up -d",
+    "db:stop": "docker-compose stop",
+    "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run",
+    "migration:revert": "ts-node ./node_modules/typeorm/cli.js migration:revert"
+  },
+  "dependencies": {
+    "@types/bcrypt": "^3.0.0",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.6",
+    "@types/node": "^13.13.5",
+    "bcrypt": "^4.0.1",
+    "body-parser": "^1.19.0",
+    "class-validator": "^0.12.2",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.0.3",
+    "reflect-metadata": "^0.1.10",
+    "sucrase": "^3.13.0",
+    "typeorm": "0.2.24",
+    "typescript": "^3.8.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3",
+    "ts-node": "3.3.0",
+    "ts-node-dev": "^1.0.0-pre.44"
+  }
+}

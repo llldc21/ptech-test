@@ -1,0 +1,340 @@
+openapi: 3.0.0
+info:
+  title: P-Tech Test API
+  version: "1.0"
+  description: Api for P-Tech test.
+  contact:
+    name: Lucas Lima
+    email: llldc21@gmail.com
+    url: "https://github.com/llldc21/"
+servers:
+  - url: "http://localhost:3333"
+paths:
+  /auth/login:
+    post:
+      summary: User Login
+      operationId: post-auth-login
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: TOKEN
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+                - password
+            examples:
+              example-1:
+                value:
+                  email: test@test.com
+                  password: 123test
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImVtYWlsIjoibGxsZGMyMUBnbWFpbC5jb20iLCJpYXQiOjE1ODg5NjE2NTcsImV4cCI6MTU4ODk2NTI1N30.MALLuFKGwkt3_tgn6rnmXXLWYW_7rF25WaoiuuwufzA
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+  /auth/change-password:
+    post:
+      summary: User Change Password
+      operationId: post-auth-change-password
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                oldPassword:
+                  type: string
+                newPassword:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  name: test@test.com
+                  oldPassword: test123
+                  newPassword: 123test
+        description: ""
+  /user/create:
+    post:
+      summary: Create User
+      operationId: post-user-create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                repeatPassword:
+                  type: string
+        description: ""
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    message: User created
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    message: Class validator error message
+                example-2:
+                  value:
+                    message: Password is not a same
+        "401":
+          description: Unauthorized
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    message: E-mail already in use
+  /items/create:
+    post:
+      summary: User Create an Item
+      operationId: post-items-create
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    message: Class validator error message
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    message: Item already registered
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: TOKEN
+          required: true
+  /item/list:
+    get:
+      summary: User List Item
+      tags: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+              examples:
+                example-1:
+                  value:
+                    - id: 2
+                      name: test2
+        "400":
+          description: Bad Request
+      operationId: get-item-list
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: TOKEN
+  "/items/update/{id}":
+    put:
+      summary: User Update Item
+      operationId: "put-items-update-:id"
+      responses:
+        "202":
+          description: Accepted
+          headers: {}
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    message: Class validation error message
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: TOKEN
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  name: test
+    parameters:
+      - schema:
+          type: number
+        name: id
+        in: path
+        required: true
+  "/items/delete/{id}":
+    delete:
+      summary: User Delete Item
+      operationId: delete-items-delete
+      responses:
+        "202":
+          description: Accepted
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    message: Class validator error message
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: TOKEN
+    parameters:
+      - schema:
+          type: number
+        name: id
+        in: path
+        required: true
+components:
+  schemas:
+    Users:
+      title: Users
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      x-examples:
+        example-1:
+          id: 1
+          email: test@test.com
+          password: $2b$08$mEUsJkKbQsXkjEvkTaOetu0zCvAxAezxijDatSvQlu3O9O56tJWX.
+    Items:
+      title: Items
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      x-examples:
+        example-1:
+          id: 1
+          name: teste item
+  securitySchemes:
+    TOKEN:
+      name: ptest
+      type: apiKey
+      in: header
