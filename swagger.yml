@@ -14,13 +14,7 @@ paths:
     post:
       summary: User Login
       operationId: post-auth-login
-      parameters:
-        - schema:
-            type: string
-          in: header
-          name: Authorization
-          description: TOKEN
-          required: true
+      parameters: []
       requestBody:
         content:
           application/json:
@@ -344,35 +338,209 @@ paths:
         name: id
         in: path
         required: true
+  /groups/list:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+              examples:
+                example-1:
+                  value:
+                    - id: 4
+                      name: abcd
+                    - id: 5
+                      name: olá
+        "400":
+          description: Bad Request
+      operationId: get-groups-list
+      description: ""
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+  /groups/create:
+    post:
+      summary: ""
+      operationId: post-groups-create
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    message: Class validator error
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    message: Item already registered
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  name: olá
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+  "/groups/update/{id}":
+    put:
+      summary: ""
+      operationId: put-groups-update
+      responses:
+        "202":
+          description: Accepted
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    message: Class validator error message
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  name: test1
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+  "/groups/delete/{id}":
+    delete:
+      summary: ""
+      operationId: delete-groups-delete
+      responses:
+        "202":
+          description: Accepted
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    message: Class validator error message
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
 components:
   schemas:
     Users:
       title: Users
       type: object
-      properties:
-        id:
-          type: string
-        email:
-          type: string
-        password:
-          type: string
       x-examples:
         example-1:
           id: 1
           email: test@test.com
           password: $2b$08$mEUsJkKbQsXkjEvkTaOetu0zCvAxAezxijDatSvQlu3O9O56tJWX.
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        password:
+          type: string
     Items:
       title: Items
       type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
       x-examples:
         example-1:
           id: 1
           name: teste item
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    Groups:
+      title: Groups
+      type: object
+      x-examples:
+        example-1:
+          id: 4
+          name: abcd
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
   securitySchemes:
     TOKEN:
       name: ptest

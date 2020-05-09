@@ -5,6 +5,7 @@ import * as bodyparser from "body-parser";
 import auth from "./routes/auth";
 import users from "./routes/user";
 import items from "./routes/items";
+import groups from "./routes/groups";
 
 import createConnection from "./configs/database";
 createConnection();
@@ -27,6 +28,7 @@ class App {
     this.express.use("/auth", auth);
     this.express.use("/users", users);
     this.express.use("/items", items);
+    this.express.use("/groups", groups);
   }
 }
 
