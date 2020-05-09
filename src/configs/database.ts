@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { createConnection, Connection } from "typeorm";
-import { Users, Items } from "../entity";
+import { Users, Items, Groups } from "../entity/index";
 
 export default async (): Promise<Connection> => {
   return createConnection({
@@ -10,7 +10,7 @@ export default async (): Promise<Connection> => {
     username: "test",
     password: "test",
     database: "postgres",
-    entities: [Users, Items],
+    entities: [Items, Users, Groups],
     synchronize: true,
     logging: false,
   });

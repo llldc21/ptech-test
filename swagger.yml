@@ -194,6 +194,25 @@ paths:
           name: Authorization
           description: TOKEN
           required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                groups:
+                  type: array
+                  items:
+                    type: string
+            examples:
+              example-1:
+                value:
+                  name: TEST2
+                  groups:
+                    - test1
+                    - test2
   /item/list:
     get:
       summary: User List Item
@@ -209,14 +228,28 @@ paths:
                   type: object
                   properties:
                     id:
-                      type: string
+                      type: integer
                     name:
                       type: string
+                    groups:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          name:
+                            type: string
               examples:
                 example-1:
                   value:
-                    - id: 2
-                      name: test2
+                    - id: 16
+                      name: TESTE2
+                      groups:
+                        - id: 1
+                          name: test1
+                        - id: 2
+                          name: test2
         "400":
           description: Bad Request
       operationId: get-item-list
@@ -262,10 +295,17 @@ paths:
               properties:
                 name:
                   type: string
+                "":
+                  type: array
+                  items:
+                    type: string
             examples:
               example-1:
                 value:
-                  name: test
+                  name: TESTE5
+                  groups:
+                    - test1
+                    - test3
     parameters:
       - schema:
           type: number
